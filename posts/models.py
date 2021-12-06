@@ -13,9 +13,14 @@ class User(models.Model):
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
 
+    is_admint = models.BooleanField(default=False)
+
     bio = models.TextField(blank=True)
 
     birthdate = models.DateField(blank=True,null=True) #No trae la hora
 
     created = models.DateTimeField(auto_now_add=True) #Viene con hora tambien
     modified = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.email
