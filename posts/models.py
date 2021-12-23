@@ -1,26 +1,23 @@
 #posts models
 
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
-class User(models.Model):
-    #User model
-    
-    email = models.EmailField(unique=True)
-    password = models.CharField(max_length=100)
+class Post(models.Model):
+    #Post model
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    first_name = models.CharField(max_length=100)
-    last_name = models.CharField(max_length=100)
+    #Se pone el nombre de la aplicacion registrada y el nombre del modelo, pero tambien se puede importar
+    #el modelo para ponerlo de llave foranea directamente
+    profile = models.ForeignKey('users.profile', on_delete=models.CASCADE)
 
-    is_admint = models.BooleanField(default=False)
+    title = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to='posts/photos')
 
-    bio = models.TextField(blank=True)
-
-    birthdate = models.DateField(blank=True,null=True) #No trae la hora
-
-    created = models.DateTimeField(auto_now_add=True) #Viene con hora tambien
+    created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.email
+        return '{} by @{}'.format(self.title, self.username)
